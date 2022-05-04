@@ -11,6 +11,13 @@ export default async function quicktypeJSON(
   fileName: string,
   jsonString: string
 ) {
+  try {
+    // Test parse the JSON object
+    JSON.parse(jsonString);
+  } catch {
+    return;
+  }
+
   const jsonInput = jsonInputForTargetLanguage("typescript");
   await jsonInput.addSource({
     name: fileName,

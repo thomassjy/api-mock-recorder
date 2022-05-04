@@ -2,16 +2,16 @@
   "name": "api-mock-recorder",
   "license": "MIT",
   "version": "0.0.4",
-  "main": "dist/server.js",
+  "main": "dist/index.js",
   "scripts": {
-    "record": "yarn build && node dist/server.js",
+    "record": "yarn build && node dist/index.js",
     "build": "tsc --outDir dist/",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "rm -rf dist && yarn build"
   },
   "files": [
     "/dist/*"
   ],
-  "bin": "./dist/server.js",
+  "bin": "./dist/index.js",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.3",

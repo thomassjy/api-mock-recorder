@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { Config } from "node-json-db/dist/lib/JsonDBConfig";
 import { JsonDB } from "node-json-db";
 import cors from "cors";
@@ -30,7 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.post("/record-api", async function (req: Request, res: Response) {
-  const { url, spec: jsonReq, result: jsonRes, method } = req.body as BodyType;
+  const { url, spec, result, method } = req.body as BodyType;
 
   const prefix = [
     method[0].toUpperCase(),
@@ -52,12 +50,15 @@ app.post("/record-api", async function (req: Request, res: Response) {
   const requestFile = filePath.mock + "/" + fileName + "Req.json";
   const responseFile = filePath.mock + "/" + fileName + "Res.json";
 
+  const jsonReq = spec || "";
+  const jsonRes = result || "";
+
   await Promise.all([
     writeFileHandler(requestFile, jsonReq),
     writeFileHandler(responseFile, jsonRes),
     quicktypeJSON(fileName + "Req", jsonReq),
     quicktypeJSON(fileName + "Res", jsonRes),
-  ]);
+  ]).catch((error) => console.error(error));
 
   dbJson.push("~" + splitProtocol[0], {
     request: MockFolder + "/" + fileName + "Req.json",
