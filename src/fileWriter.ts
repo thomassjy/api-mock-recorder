@@ -1,10 +1,9 @@
 import fs from "fs";
 import path from "path";
-import { Generated, filePath } from "./constant";
+import { GENERATED, FilePath, RECORDER_PATH, ARGV } from "./variable";
 
 export function injectRecorder(withRecorder = true) {
-  const mainFilePath = process.argv[2];
-
+  const mainFilePath = ARGV.file;
   if (!fs.existsSync(mainFilePath)) {
     return;
   }
@@ -12,7 +11,7 @@ export function injectRecorder(withRecorder = true) {
   if (withRecorder) {
     fs.copyFileSync(mainFilePath, mainFilePath + ".bak");
     const data = fs.readFileSync(path.resolve(mainFilePath), "utf8");
-    const newData = 'import "api-mock-recorder/dist/recorder";\n' + data;
+    const newData = `import "${RECORDER_PATH}";\n` + data;
     fs.writeFileSync(path.resolve(mainFilePath), newData, "utf8");
     return;
   }
@@ -20,15 +19,20 @@ export function injectRecorder(withRecorder = true) {
   fs.renameSync(mainFilePath + ".bak", mainFilePath);
 }
 
-export function initFolder() {
+export function initFileAndFolder() {
   injectRecorder();
-  const filePaths = Object.values(filePath);
-  filePaths.unshift(Generated);
+  const filePaths = [
+    ...GENERATED.split("/").reduce(
+      (res: string[], each: string) => [...res, [...res, each].join("/")],
+      []
+    ),
+    ...Object.values(FilePath),
+  ];
   filePaths.forEach((each) => !fs.existsSync(each) && fs.mkdirSync(each));
 
   fs.copyFileSync(
     path.join(__dirname, "mockService.js"),
-    Generated + "/mockService.js"
+    GENERATED + "/mockService.js"
   );
 }
 

@@ -3,8 +3,12 @@ import { JsonDB } from "node-json-db";
 import cors from "cors";
 import express, { Request, Response } from "express";
 
-import { filePath, MockFolder } from "./constant";
-import { initFolder, injectRecorder, writeFileHandler } from "./fileWriter";
+import { FilePath, GENERATED, MOCK_FOLDER } from "./variable";
+import {
+  initFileAndFolder,
+  injectRecorder,
+  writeFileHandler,
+} from "./fileWriter";
 import quicktypeJSON from "./typeHandler";
 
 export interface BodyType {
@@ -16,8 +20,10 @@ export interface BodyType {
 
 const PORT = 3005;
 
-initFolder();
-const dbJson = new JsonDB(new Config("generated/artifact", true, false, "~"));
+initFileAndFolder();
+const dbJson = new JsonDB(
+  new Config(GENERATED + "/artifact", true, false, "~")
+);
 
 /**
  * Setup Express service
@@ -47,8 +53,8 @@ app.post("/record-api", async function (req: Request, res: Response) {
   );
 
   const fileName = prefix + sanitizedUrl.join("");
-  const requestFile = filePath.mock + "/" + fileName + "Req.json";
-  const responseFile = filePath.mock + "/" + fileName + "Res.json";
+  const requestFile = FilePath.MOCK + "/" + fileName + "Req.json";
+  const responseFile = FilePath.MOCK + "/" + fileName + "Res.json";
 
   const jsonReq = spec || "";
   const jsonRes = result || "";
@@ -61,8 +67,8 @@ app.post("/record-api", async function (req: Request, res: Response) {
   ]).catch((error) => console.error(error));
 
   dbJson.push("~" + splitProtocol[0], {
-    request: MockFolder + "/" + fileName + "Req.json",
-    response: MockFolder + "/" + fileName + "Res.json",
+    request: MOCK_FOLDER + "/" + fileName + "Req.json",
+    response: MOCK_FOLDER + "/" + fileName + "Res.json",
   });
 
   res.status(200).json({ success: true });

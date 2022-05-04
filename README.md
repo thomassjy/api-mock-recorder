@@ -6,3 +6,6 @@
 ```
 ls ~/.config/yarn/link
 ```
+
+# Next
+Mock for client browser

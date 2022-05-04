@@ -2,7 +2,7 @@
   "name": "api-mock-recorder",
   "license": "MIT",
   "version": "0.0.5",
-  "main": "dist/index.js",
+  "main": "dist/bin.js",
   "scripts": {
     "record": "yarn build && node dist/index.js",
     "build": "tsc --outDir dist/",
@@ -11,14 +11,15 @@
   "files": [
     "/dist/*"
   ],
-  "bin": "./dist/index.js",
+  "bin": "./dist/bin.js",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "msw": "^0.39.2",
     "node-json-db": "^1.5.0",
     "quicktype": "^15.0.261",
-    "quicktype-core": "^6.0.71"
+    "quicktype-core": "^6.0.71",
+    "yargs": "^17.4.1"
   },
   "devDependencies": {
     "@swc/core": "^1.2.176",

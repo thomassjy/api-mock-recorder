@@ -5,14 +5,14 @@ import {
 } from "quicktype-core";
 import fs from "fs";
 
-import { filePath } from "./constant";
+import { FilePath } from "./variable";
 
 export default async function quicktypeJSON(
   fileName: string,
   jsonString: string
 ) {
+  // Test parse the JSON object, bail out if failed
   try {
-    // Test parse the JSON object
     JSON.parse(jsonString);
   } catch {
     return;
@@ -41,5 +41,5 @@ export default async function quicktypeJSON(
     inferUuids: true,
   });
 
-  fs.writeFileSync(filePath.type + "/" + fileName + ".ts", lines.join("\n"));
+  fs.writeFileSync(FilePath.TYPE + "/" + fileName + ".ts", lines.join("\n"));
 }
