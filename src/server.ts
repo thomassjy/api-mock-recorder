@@ -1,13 +1,13 @@
+#!/usr/bin/env node
+
+import { Config } from "node-json-db/dist/lib/JsonDBConfig";
+import { JsonDB } from "node-json-db";
 import cors from "cors";
 import express, { Request, Response } from "express";
-import { JsonDB } from "node-json-db";
-import { Config } from "node-json-db/dist/lib/JsonDBConfig";
 
 import { filePath, MockFolder } from "./constant";
-
-import { initFolder, writeFileHandler } from "./fileWriter";
+import { initFolder, injectRecorder, writeFileHandler } from "./fileWriter";
 import quicktypeJSON from "./typeHandler";
-import buildClient from "./buildClient";
 
 export interface BodyType {
   url: string;
@@ -71,9 +71,9 @@ app.listen(PORT, () => {
   console.log(`Record Proxy listening at http://localhost:${PORT}`);
 });
 
-// BUILD Webpack for client use
+// Return back main file
 process.stdin.resume();
 process.on("SIGINT", async () => {
-  await buildClient();
+  injectRecorder(false);
   process.exit();
 });

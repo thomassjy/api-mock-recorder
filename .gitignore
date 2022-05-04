@@ -2,8 +2,5 @@
 .npmrc
 *.log
 dist
-generated/client
-generated/mock
-generated/type
-generated/artifact.json
+generated
 node_modules

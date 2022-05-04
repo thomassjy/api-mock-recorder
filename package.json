@@ -6,7 +6,7 @@
   "scripts": {
     "record": "yarn build && node dist/server.js",
     "build": "tsc --outDir dist/",
-    "demo": "ts-node --transpileOnly demo/index.ts"
+    "prepublishOnly": "yarn build"
   },
   "files": [
     "/dist/*"
