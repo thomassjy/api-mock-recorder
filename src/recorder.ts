@@ -1,15 +1,17 @@
-const RECORDER_URL = 'http://localhost:3005';
-
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   ((xhr: XMLHttpRequest) => {
+    const RECORDER_URL = "http://localhost:3005";
     const recordAPI = (
       xhrInstance: XMLHttpRequest,
       method: string,
       requestBody?: Document | XMLHttpRequestBodyInit | null
     ) => {
-      if (xhrInstance.status === 200 && xhrInstance.responseURL.indexOf(RECORDER_URL) !== 0) {
+      if (
+        xhrInstance.status === 200 &&
+        xhrInstance.responseURL.indexOf(RECORDER_URL) !== 0
+      ) {
         const headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        headers.append("Content-Type", "application/json");
 
         const raw = JSON.stringify({
           url: xhrInstance.responseURL,
@@ -19,12 +21,12 @@ if (typeof window !== 'undefined') {
         });
 
         const requestOptions = {
-          method: 'POST',
+          method: "POST",
           headers: headers,
           body: raw,
         };
 
-        fetch(RECORDER_URL + '/recordAPI', requestOptions);
+        fetch(RECORDER_URL + "/record-api", requestOptions);
       }
     };
 

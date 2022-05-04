@@ -1,4 +1,9 @@
-*.log
 .DS_Store
+.npmrc
+*.log
+dist
+generated/client
+generated/mock
+generated/type
+generated/artifact.json
 node_modules
-build

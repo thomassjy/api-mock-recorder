@@ -3,17 +3,17 @@ import {
   jsonInputForTargetLanguage,
   quicktype,
 } from "quicktype-core";
-
 import fs from "fs";
-import { GENERATED_TYPE } from "./constant";
+
+import { filePath } from "./constant";
 
 export default async function quicktypeJSON(
-  typeName: string,
+  fileName: string,
   jsonString: string
 ) {
   const jsonInput = jsonInputForTargetLanguage("typescript");
   await jsonInput.addSource({
-    name: typeName,
+    name: fileName,
     samples: [jsonString],
   });
 
@@ -34,11 +34,5 @@ export default async function quicktypeJSON(
     inferUuids: true,
   });
 
-  if (!fs.existsSync("generated")) {
-    fs.mkdirSync("generated");
-  }
-  if (!fs.existsSync("generated/types")) {
-    fs.mkdirSync("generated/types");
-  }
-  fs.writeFileSync(GENERATED_TYPE + typeName + ".d.ts", lines.join("\n"));
+  fs.writeFileSync(filePath.type + "/" + fileName + ".ts", lines.join("\n"));
 }

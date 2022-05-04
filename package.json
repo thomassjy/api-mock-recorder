@@ -1,23 +1,34 @@
 {
   "name": "api-mock-recorder",
+  "license": "MIT",
+  "version": "0.0.1",
+  "main": "dist/server.js",
   "scripts": {
-    "record": "ts-node lib/index.ts",
-    "test": "ts-node demo/index.ts",
-    "build": "tsc --outDir build/"
+    "record": "yarn build && node dist/server.js",
+    "build": "tsc --outDir dist/",
+    "demo": "ts-node --transpileOnly demo/index.ts"
   },
+  "files": [
+    "/dist/*"
+  ],
+  "bin": "./dist/server.js",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.3",
+    "msw": "^0.39.2",
     "node-json-db": "^1.5.0",
     "quicktype": "^15.0.261",
     "quicktype-core": "^6.0.71"
   },
   "devDependencies": {
+    "@swc/core": "^1.2.176",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/filesystem": "^0.0.32",
-    "@types/node": "^17.0.23",
-    "rollup": "^2.70.1",
+    "@types/node": "^17.0.25",
+    "esbuild": "^0.14.38",
+    "node-fetch": "2.6.7",
+    "node-loader": "^2.0.0",
     "terser-webpack-plugin": "^5.3.1",
     "ts-loader": "^9.2.8",
     "ts-node": "^10.7.0",
